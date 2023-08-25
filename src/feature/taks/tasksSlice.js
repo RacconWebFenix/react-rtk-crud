@@ -23,6 +23,7 @@ export const taskSlice = createSlice({
       return [...state, action.payload];
     },
     updateTask: (state, action) => {
+      console.log(action.payload);
       return [
         ...state.map((s) => {
           if (s.id === action.payload.id) {

@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { addTask, updateTask } from "../feature/taks/tasksSlice";
 import { v4 as uuid } from "uuid";
 import { useNavigate, useParams } from "react-router-dom";
+import { Button, Form, Input } from "antd";
+import TextArea from "antd/es/input/TextArea";
 
 function TaskForm() {
   const dispatch = useDispatch();
@@ -11,27 +13,18 @@ function TaskForm() {
 
   const tasks = useSelector((state) => state.tasks);
 
-  const [task, setTask] = useState({
-    title: "",
-    description: "",
-  });
+  const [form] = Form.useForm();
 
-  const handleChange = (e) => {
-    setTask((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = () => {
+    console.log(form.getFieldsValue());
 
     if (parans.id) {
-      dispatch(updateTask(task));
+      console.log(parans.id);
+      dispatch(updateTask({ ...form.getFieldsValue(), id: parans.id }));
     } else {
       dispatch(
         addTask({
-          ...task,
+          ...form.getFieldsValue(),
           id: uuid(),
         })
       );
@@ -40,29 +33,58 @@ function TaskForm() {
   };
 
   useEffect(() => {
-    console.log(parans);
-    if (parans.id) setTask(tasks.find((t) => t.id === parans.id));
+    if (parans.id) form.setFieldsValue(tasks.find((t) => t.id === parans.id));
   }, []);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
+    <Form
+      name="basic"
+      labelCol={{
+        span: 8,
+      }}
+      wrapperCol={{
+        span: 16,
+      }}
+      style={{
+        maxWidth: 600,
+      }}
+      initialValues={{
+        remember: true,
+      }}
+      onFinish={handleSubmit}
+      form={form}
+    >
+      <Form.Item
         name="title"
         type="text"
         placeholder="title"
-        onChange={handleChange}
-        value={task.title}
-      />
+        rules={[
+          {
+            required: true,
+            message: "Please input your username!",
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
 
-      <textarea
+      <Form.Item
         name="description"
         placeholder="description"
-        onChange={handleChange}
-        value={task.description}
-      ></textarea>
+        rules={[
+          {
+            required: true,
+            message: "Please input your username!",
+          },
+        ]}
+      >
+        <TextArea />
+      </Form.Item>
 
-      <button>Save</button>
-    </form>
+      <Button type="primary" htmlType="submit">
+        Save
+      </Button>
+    </Form>
   );
 }
 
