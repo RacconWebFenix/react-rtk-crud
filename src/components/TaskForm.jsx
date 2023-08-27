@@ -16,10 +16,7 @@ function TaskForm() {
   const [form] = Form.useForm();
 
   const handleSubmit = () => {
-    console.log(form.getFieldsValue());
-
     if (parans.id) {
-      console.log(parans.id);
       dispatch(updateTask({ ...form.getFieldsValue(), id: parans.id }));
     } else {
       dispatch(

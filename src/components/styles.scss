@@ -1,0 +1,44 @@
+.task-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.tasklist_description {
+  flex-grow: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 70px; // Altura mínima para evitar que car
+}
+
+.custom-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.custom-list-item {
+  margin-bottom: 16px; // Espaçamento entre os itens
+  padding: 16px;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  height: 150px; // Altura fixa para os itens
+  overflow: hidden;
+}
+
+.custom-list-title {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.custom-list-description {
+  line-height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.list-header {
+  color: white; /* Altere para a cor desejada */
+  border-radius: 4px; /* Adapte conforme necessário */
+}

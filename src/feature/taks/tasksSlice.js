@@ -1,19 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import data from "./mock/Mock.json";
 
-const initialState = [
-  {
-    id: "1",
-    title: "Task 1",
-    description: "Task 1 Description",
-    completed: false,
-  },
-  {
-    id: "2",
-    title: "Task 2",
-    description: "Task 2 Description",
-    completed: false,
-  },
-];
+const initialState = data;
 
 export const taskSlice = createSlice({
   name: "tasks",
@@ -23,7 +11,6 @@ export const taskSlice = createSlice({
       return [...state, action.payload];
     },
     updateTask: (state, action) => {
-      console.log(action.payload);
       return [
         ...state.map((s) => {
           if (s.id === action.payload.id) {
