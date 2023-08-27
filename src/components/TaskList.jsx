@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { removeTask } from "../feature/taks/tasksSlice";
 import { NavLink } from "react-router-dom";
 import { Card, Col, Divider, List, Row } from "antd";
+import Fade from "react-reveal/Fade";
 import "./styles.scss";
 
 const TaskFooter = ({ taskId, handleDelete }) => {
@@ -50,12 +51,14 @@ function TaskList() {
           </header>
         }
         renderItem={(task) => (
-          <List.Item>
-            <Card title={task.title} className="task-card">
-              <div className="tasklist_description">{task.description}</div>
-              <TaskFooter taskId={task.id} handleDelete={handleDelete} />
-            </Card>
-          </List.Item>
+          <Fade bottom cascade distance="10%" duration={1000}>
+            <List.Item>
+              <Card title={task.title} className="task-card">
+                <div className="tasklist_description">{task.description}</div>
+                <TaskFooter taskId={task.id} handleDelete={handleDelete} />
+              </Card>
+            </List.Item>
+          </Fade>
         )}
       />
     </div>
