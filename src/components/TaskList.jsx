@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeTask } from "../feature/taks/tasksSlice";
 import { NavLink } from "react-router-dom";
 import { Card, Col, Divider, List, Row } from "antd";
-import Fade from "react-reveal/Fade";
 import "./styles.scss";
 
-const TaskFooter = ({ taskId, handleDelete }) => {
+import { motion, useScroll } from "framer-motion";
+
+const TaskFooter = ({ taskId }) => {
+  const dispatch = useDispatch();
+
+  const handleDelete = (id) => {
+    dispatch(removeTask(id));
+  };
+
   return (
     <div className="task-footer">
       <Divider />
@@ -22,14 +29,30 @@ const TaskFooter = ({ taskId, handleDelete }) => {
   );
 };
 
+const CardComponente = ({ task }) => {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["0 1", "1 1"],
+  });
+
+  return (
+    <motion.div
+      ref={ref}
+      style={{ scale: scrollYProgress, opacity: scrollYProgress }}
+    >
+      <section>
+        <Card title={task.title} className="task-card">
+          <div className="tasklist_description">{task.description}</div>
+          <TaskFooter taskId={task.id} />
+        </Card>
+      </section>
+    </motion.div>
+  );
+};
+
 function TaskList() {
   const tasksList = useSelector((state) => state.tasks);
-
-  const dispatch = useDispatch();
-
-  const handleDelete = (id) => {
-    dispatch(removeTask(id));
-  };
 
   return (
     <div>
@@ -51,14 +74,9 @@ function TaskList() {
           </header>
         }
         renderItem={(task) => (
-          <Fade bottom cascade distance="10%" duration={1000}>
-            <List.Item>
-              <Card title={task.title} className="task-card">
-                <div className="tasklist_description">{task.description}</div>
-                <TaskFooter taskId={task.id} handleDelete={handleDelete} />
-              </Card>
-            </List.Item>
-          </Fade>
+          <List.Item>
+            <CardComponente task={task} />
+          </List.Item>
         )}
       />
     </div>
